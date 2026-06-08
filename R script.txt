@@ -1,0 +1,411 @@
+
+
+############################# metan ##########################################
+install.packages("metan")
+library(metan)
+install.packages("ggplot2")
+library(ggplot2)
+options(max.print = 10000)
+############################### set wd ######################################
+getwd()
+############################## importing data ###############################
+library(readxl)
+Wheat_data <- read_excel("D:/Data Analysis/GGE/Wheat_data.xlsx")
+View(Wheat_data)
+
+class(Wheat_data)
+str(Wheat_data)
+############################# factors with unique levels ####################
+Wheat_data$ENV <- factor(Wheat_data$ENV, levels=unique(Wheat_data$ENV))
+Wheat_data$Treatments <- factor(Wheat_data$Treatments, levels=unique(Wheat_data$Treatments))
+Wheat_data$REP <- factor(Wheat_data$REP, levels=unique(Wheat_data$REP))
+str(Wheat_data)
+###################### data inspection and manipulation #####################
+inspect(Wheat_data, plot=TRUE)
+##################### check for outliers ###################################
+find_outliers(Wheat_data, var=PH, plots=TRUE)
+find_outliers(Wheat_data, var=LN, plots=TRUE)
+##################### extra clean functions ###############################
+##################### remove NA ###########################################
+remove_rows_na(Wheat_data)
+####################### replace zero #####################################
+replace_zero(Wheat_data)
+###################### find text in numbers ##############################
+find_text_in_num(Wheat_data$PH)
+find_text_in_num(Wheat_data$LN)
+find_text_in_num(Wheat_data$LA)
+find_text_in_num(Wheat_data$RL)
+find_text_in_num(Wheat_data$RhB)
+find_text_in_num(Wheat_data$chl)
+find_text_in_num(Wheat_data$SS)
+find_text_in_num(Wheat_data$TP)
+find_text_in_num(Wheat_data$Pro)
+find_text_in_num(Wheat_data$SOD)
+find_text_in_num(Wheat_data$POD)
+find_text_in_num(Wheat_data$CAT)
+find_text_in_num(Wheat_data$TPC)
+find_text_in_num(Wheat_data$TFC)
+find_text_in_num(Wheat_data$Sap)
+find_text_in_num(Wheat_data$PSP)
+find_text_in_num(Wheat_data$DPPH)
+find_text_in_num(Wheat_data$ABTS)
+find_text_in_num(Wheat_data$AMA)
+
+
+######################### data analysis ##################################
+###################### descriptive stats ################################
+desc_stat(Wheat_data)
+desc_stat(Wheat_data, stats="all")
+ds <- desc_stat(Wheat_data, stats="all") 
+ds
+View(ds)
+class(ds)
+######################### importing a table ############################
+install.packages("writexl")
+library(writexl)
+write_xlsx(ds, "ds.xlsx")
+######################## mean performance ##############################
+####################### mean of genotypes #############################
+mg <- means_by(Wheat_data, Treatments)
+mg
+View(mg)
+######################### mean of environments #######################
+me <- means_by(Wheat_data, ENV)
+me
+View(me)
+########### mean performance of genotypes across environments ###########
+mge <- Wheat_data %>% 
+  group_by(ENV, Treatments) %>%
+  desc_stat(LN, PH, stats="mean")
+mge
+View(mge)
+############### plotting performace across environments ################
+## HT
+ggpairs_plot <-pht1 <- ge_plot(Wheat_data, ENV, Treatments, PH, type = 4)+ theme(axis.text = element_text(size = 16),
+                                                                   axis.title = element_text(size = 16),
+                                                                   legend.text = element_text(size = 16),
+                                                                   legend.title = element_text(size = 16))
+pht1
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+
+ggpairs_plot <-pht2 <- ge_plot(Wheat_data, ENV, Treatments, LN)+ theme(axis.text = element_text(size = 16),
+                                                                  axis.title = element_text(size = 16),
+                                                                  legend.text = element_text(size = 16),
+                                                                  legend.title = element_text(size = 16))
+pht2
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht3 <- ge_plot(Wheat_data, ENV, Treatments, LA)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht3
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht4 <- ge_plot(Wheat_data, ENV, Treatments, RL)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht4
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht5 <- ge_plot(Wheat_data, ENV, Treatments, RhB)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht5
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht6 <- ge_plot(Wheat_data, ENV, Treatments, chl)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht6
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht7 <- ge_plot(Wheat_data, ENV, Treatments, SS)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht7
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht8 <- ge_plot(Wheat_data, ENV, Treatments, TP)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht8
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht9 <- ge_plot(Wheat_data, ENV, Treatments, Pro)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht9
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht10 <- ge_plot(Wheat_data, ENV, Treatments, SOD)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht10
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+
+ggpairs_plot <-pht11 <- ge_plot(Wheat_data, ENV, Treatments, POD)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht11
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht12 <- ge_plot(Wheat_data, ENV, Treatments, CAT)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht12
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht13 <- ge_plot(Wheat_data, ENV, Treatments, TPC)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht13
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+
+ggpairs_plot <-pht14 <- ge_plot(Wheat_data, ENV, Treatments, TFC)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht14
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht15 <- ge_plot(Wheat_data, ENV, Treatments, Sap)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht15
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+
+ggpairs_plot <-pht16 <- ge_plot(Wheat_data, ENV, Treatments, PSP)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht16
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+
+ggpairs_plot <-pht17 <- ge_plot(Wheat_data, ENV, Treatments, DPPH)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht17
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht18 <- ge_plot(Wheat_data, ENV, Treatments, ABTS)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht18
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+ggpairs_plot <-pht19 <- ge_plot(Wheat_data, ENV, Treatments, AMA)+ theme(axis.text = element_text(size = 16),
+                                                                       axis.title = element_text(size = 16),
+                                                                       legend.text = element_text(size = 16),
+                                                                       legend.title = element_text(size = 16))
+pht19
+
+# Save the plot with the specified file path and extension
+ggsave(file_path, plot = ggpairs_plot, width = 10, height = 10, units = "in", dpi = 800)
+
+
+# Specify the file path with forward slashes or double backslashes
+file_path <- "D:/Data Analysis/GGE/salinity_data1.png"
+
+
+
+
+pht2 <- ge_plot(Wheat_data, ENV, Treatments, SOD, type=2)
+pht2
+## YLD
+pyd <- ge_plot(Wheat_data, ENV, Treatments, POD)
+pyd
+pyd2 <- ge_plot(Wheat_data, ENV, Treatments, POD, type=2)
+pyd2
+######################## winners within each env ###########################
+win <- ge_winners(Wheat_data, ENV, Treatments, resp = everything())
+View(win)
+####################### ranks of genotypes #################################
+ranks <- ge_winners(Wheat_data, ENV, Treatments, resp = everything(), type = "ranks")
+View(ranks)
+
+##### more details on  performance
+ge_details(Wheat_data, ENV, Treatments, resp = everything())
+library(writexl)
+write_xlsx(ge_details, "ge_details.xlsx")
+########################## fixed effect models #############################
+########################### ind anova ####################################
+indav <- anova_ind(Wheat_data, ENV, Treatments, REP, resp = c(PH, LN, LA, RL, RhB, chl, SS, TP, Pro, SOD, POD, CAT, TPC, TFC, Sap, PSP, DPPH, ABTS, AMA))
+# anova for height
+indav$PH$individual
+iaht <- indav$PH$individual
+View(iaht)
+?anova_ind
+## Bartlett test 
+bartlett.test(Wheat_data$PH~Wheat_data$ENV, data = Wheat_data)
+# anova for yield
+indav$PH$individual
+iayd <- indav$PH$individual
+View(iayd)
+write_xlsx(iayd, "chlanv.xlsx")
+######################## pooled anova #####################################
+# pooled anova for height
+panv1 <- anova_joint(Wheat_data, ENV, Treatments, REP, PH)
+pavt1 <- panv1$PH$anova
+View(pavt1)
+# pooled anova for yield
+panv2 <- anova_joint(MMET, ENV, GEN, REP, YLD)
+pavt2 <- panv2$YLD$anova
+View(pavt2)
+
+######################## stability analysis ###########################
+######################## anova based stability #######################
+# Annichiarico env index
+ann1 <- Annicchiarico(Wheat_data, ENV, Lines, REP, Chl)
+print(ann1)
+View(ann1$Chl$environments)
+ann2 <- Annicchiarico(MMET, ENV, GEN, REP, YLD)
+print(ann2)
+View(ann2$YLD$environments)
+# ecovalence
+eco1 <- ecovalence(COT_TON, ENV, GEN, REP, PH)
+eco1
+View(eco1$PH)
+eco2 <- ecovalence(MMET, ENV, GEN, REP, YLD)
+eco2
+print(eco2)
+# Shukla
+shu1 <- Shukla(COT_TON, ENV, GEN, REP, PH)
+shu1
+shu2 <- Shukla(MMET, ENV, GEN, REP, YLD)
+shu2
+## Reg based 
+reg1 <- ge_reg(COT_TON, ENV, GEN, REP, PH)
+print(reg1)
+reg1anv <- reg1$PH$anova
+View(reg1anv)
+write_xlsx(reg1anv, "reganv1.xlsx")
+plot(reg1)
+
+reg2 <- ge_reg(MMET, ENV, GEN, REP, YLD)
+print(reg2)
+reg2anv <- reg2$YLD$anova
+View(reg2anv)
+plot(reg2)
+
+################################ non parametric ###########################
+## superiority by Lin and  Binns
+super1 <- superiority(Wheat_data, ENV, Lines, Chl)
+print(super1)
+?superiority
+View(super1$Chl$index)
+View(super1$Chl$environments)
+
+super2 <- superiority(MMET, ENV, GEN, YLD)
+View(super2$YLD$index)
+View(super2$YLD$environments)
+
+## fox top third cirteria
+?Fox
+fox1 <- Fox(Wheat_data, ENV, GEN, Chl)
+View(fox1$Chl)
+
+fox2 <- Fox(MMET, ENV, GEN, YLD)
+View(fox2$YLD)
+
+############################ factor based #################################
+fact1 <- ge_factanal(Wheat_data, ENV, Lines, REP, Chl)
+print(fact1)
+
+fact2 <- ge_factanal(MMET, ENV, GEN, REP, YLD)
+print(fact2)
+plot(fact1)
+View(fact1$PH$PCA)
+?ge_factanal
+
+########################## wrap stab parameters ############################
+stabp1 <- ge_stats(Wheat_data, ENV, Treatments, REP, PH)
+data1 <- get_model_data(stabp1)
+View(data1)
+View(stabp1$Chl)
+
+ranksp1 <- get_model_data(stabp1, "ranks")
+View(ranksp1)
+
+stabp2 <- ge_stats(MMET, ENV, GEN, REP, YLD)
+View(stabp2$YLD)
+data2 <- get_model_data(stabp2)
+View(data2)
+ranks2 <- get_model_data(stabp2, "ranks")
+View(ranks2)
+
+?ge_stats
+
+
